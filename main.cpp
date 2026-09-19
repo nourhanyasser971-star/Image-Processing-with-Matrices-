@@ -270,17 +270,25 @@ Image applyBlur(const Image& input) {
     int height = input.getHeight();
     int width = input.getWidth();
     int channels = input.getChannels();
-    Image output(width, height, channels);
+    Image output(width, height, channels); // border pixels stay 0 by default
 
-    // TODO: Implement this function
-    // For each pixel (from y=1 to height-2, x=1 to width-2) and each channel:
-    //   sum = 0
-    //   For each neighbor (ky from -1 to 1, kx from -1 to 1):
-    //     sum += input(y+ky, x+kx, c)
-    //   output(y, x, c) = sum / 9
+    for (int y = 1; y <= height - 2; y++) {
+        for (int x = 1; x <= width - 2; x++) {
+            for (int c = 0; c < channels; c++) {
+                int sum = 0;
+                for (int ky = -1; ky <= 1; ky++) {
+                    for (int kx = -1; kx <= 1; kx++) {
+                        sum += input(y + ky, x + kx, c);
+                    }
+                }
+                output(y, x, c) = sum / 9; // integer division intended
+            }
+        }
+    }
 
     return output;
 }
+
 
 /**
  * Rotates image 90 degrees clockwise
