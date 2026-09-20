@@ -156,6 +156,17 @@ Image convertToGrayscale(const Image& input) {
     //   Calculate gray = 0.299*R + 0.587*G + 0.114*B
     //   Set output(y, x, 0) = gray
 
+    for (int r = 0; r < height; r++)
+    {
+        for(int c = 0; c < width; c++)
+        {
+            int R = input(r, c, 0);
+            int G = input(r, c, 1);
+            int B = input(r, c, 2);
+            int gray = int (0.299*R + 0.587*G + 0.114*B) ;
+            output(r, c, 0) = gray;
+        }
+    }
     return output;
 }
 
